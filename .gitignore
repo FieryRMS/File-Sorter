@@ -1,0 +1,6 @@
+tests
+*.dll
+*.zip
+*.7z
+test_files
+__pycache__
