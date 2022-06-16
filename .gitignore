@@ -1,5 +1,5 @@
 tests
-*.dll
+dlls
 *.zip
 *.7z
 test_files

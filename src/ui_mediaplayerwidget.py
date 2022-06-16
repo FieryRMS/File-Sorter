@@ -15,11 +15,60 @@ class Ui_MediaPlayerWidget(object):
     def setupUi(self, MediaPlayerWidget):
         MediaPlayerWidget.setObjectName("MediaPlayerWidget")
         MediaPlayerWidget.resize(718, 542)
+        MediaPlayerWidget.setFocusPolicy(QtCore.Qt.ClickFocus)
         MediaPlayerWidget.setStyleSheet("background-color: rgb(29, 29, 29);")
         self.gridLayout = QtWidgets.QGridLayout(MediaPlayerWidget)
         self.gridLayout.setContentsMargins(5, 5, 5, 5)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
+        self.MediaContainer = QtWidgets.QWidget(MediaPlayerWidget)
+        self.MediaContainer.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.MediaContainer.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.MediaContainer.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.MediaContainer.setObjectName("MediaContainer")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.MediaContainer)
+        self.verticalLayout.setContentsMargins(5, -1, 3, 5)
+        self.verticalLayout.setSpacing(0)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.VolumeSlider = QtWidgets.QSlider(self.MediaContainer)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.VolumeSlider.sizePolicy().hasHeightForWidth())
+        self.VolumeSlider.setSizePolicy(sizePolicy)
+        self.VolumeSlider.setMinimumSize(QtCore.QSize(0, 120))
+        self.VolumeSlider.setMaximumSize(QtCore.QSize(16777215, 150))
+        self.VolumeSlider.setFocusPolicy(QtCore.Qt.ClickFocus)
+        self.VolumeSlider.setLayoutDirection(QtCore.Qt.RightToLeft)
+        self.VolumeSlider.setStyleSheet("QSlider { \n"
+"    background: transparent;\n"
+"}\n"
+"QSlider::groove { \n"
+"    background-color: white;\n"
+"    width: 4px;\n"
+"}\n"
+"\n"
+"QSlider::handle { \n"
+"    background-color: rgb(190, 190, 190); \n"
+"    height: 10px;\n"
+"    margin: 0 -8px 0;\n"
+"    border-radius: 5px;\n"
+"}\n"
+"\n"
+"QSlider::handle:hover {\n"
+"    background-color: rgb(180, 180, 180);\n"
+"}\n"
+"\n"
+"QSlider::handle:pressed {\n"
+"    background-color: rgb(160, 160, 160);\n"
+"}")
+        self.VolumeSlider.setMaximum(1000)
+        self.VolumeSlider.setPageStep(100)
+        self.VolumeSlider.setProperty("value", 1000)
+        self.VolumeSlider.setOrientation(QtCore.Qt.Vertical)
+        self.VolumeSlider.setObjectName("VolumeSlider")
+        self.verticalLayout.addWidget(self.VolumeSlider)
+        self.gridLayout.addWidget(self.MediaContainer, 0, 0, 1, 1)
         self.VideoController = QtWidgets.QFrame(MediaPlayerWidget)
         self.VideoController.setMaximumSize(QtCore.QSize(16777215, 35))
         self.VideoController.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -152,9 +201,10 @@ class Ui_MediaPlayerWidget(object):
         self.TimelineSlider.setTickPosition(QtWidgets.QSlider.NoTicks)
         self.TimelineSlider.setObjectName("TimelineSlider")
         self.horizontalLayout.addWidget(self.TimelineSlider)
-        self.Volume = QtWidgets.QToolButton(self.VideoController)
-        self.Volume.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.Volume.setStyleSheet("QToolButton {\n"
+        self.VolumeBtn = QtWidgets.QToolButton(self.VideoController)
+        self.VolumeBtn.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.VolumeBtn.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.VolumeBtn.setStyleSheet("QToolButton {\n"
 "    border: 2px solid black;\n"
 "    border-radius: 16px;\n"
 "    background: rgb(190, 190, 190)\n"
@@ -167,71 +217,24 @@ class Ui_MediaPlayerWidget(object):
 "QToolButton:pressed {\n"
 "    background-color: rgb(160, 160, 160);\n"
 "}")
-        self.Volume.setText("")
+        self.VolumeBtn.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("ui\\../assets/volume-high.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.Volume.setIcon(icon3)
-        self.Volume.setIconSize(QtCore.QSize(20, 20))
-        self.Volume.setCheckable(True)
-        self.Volume.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
-        self.Volume.setAutoRaise(False)
-        self.Volume.setArrowType(QtCore.Qt.NoArrow)
-        self.Volume.setObjectName("Volume")
-        self.horizontalLayout.addWidget(self.Volume)
+        self.VolumeBtn.setIcon(icon3)
+        self.VolumeBtn.setIconSize(QtCore.QSize(20, 20))
+        self.VolumeBtn.setCheckable(True)
+        self.VolumeBtn.setPopupMode(QtWidgets.QToolButton.DelayedPopup)
+        self.VolumeBtn.setAutoRaise(False)
+        self.VolumeBtn.setArrowType(QtCore.Qt.NoArrow)
+        self.VolumeBtn.setObjectName("VolumeBtn")
+        self.horizontalLayout.addWidget(self.VolumeBtn)
         self.gridLayout.addWidget(self.VideoController, 2, 0, 1, 1)
-        self.MediaContainer = QtWidgets.QWidget(MediaPlayerWidget)
-        self.MediaContainer.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.MediaContainer.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.MediaContainer.setObjectName("MediaContainer")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.MediaContainer)
-        self.verticalLayout.setContentsMargins(5, -1, 3, 5)
-        self.verticalLayout.setSpacing(0)
-        self.verticalLayout.setObjectName("verticalLayout")
-        spacerItem = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout.addItem(spacerItem)
-        self.VolumeSlider = QtWidgets.QSlider(self.MediaContainer)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.VolumeSlider.sizePolicy().hasHeightForWidth())
-        self.VolumeSlider.setSizePolicy(sizePolicy)
-        self.VolumeSlider.setMinimumSize(QtCore.QSize(0, 120))
-        self.VolumeSlider.setMaximumSize(QtCore.QSize(16777215, 150))
-        self.VolumeSlider.setLayoutDirection(QtCore.Qt.RightToLeft)
-        self.VolumeSlider.setStyleSheet("QSlider::groove { \n"
-"    background-color: white;\n"
-"    width: 4px;\n"
-"}\n"
-"\n"
-"QSlider::handle { \n"
-"    background-color: rgb(190, 190, 190); \n"
-"    height: 10px;\n"
-"    margin: 0 -8px 0;\n"
-"    border-radius: 5px;\n"
-"}\n"
-"\n"
-"QSlider::handle:hover {\n"
-"    background-color: rgb(180, 180, 180);\n"
-"}\n"
-"\n"
-"QSlider::handle:pressed {\n"
-"    background-color: rgb(160, 160, 160);\n"
-"}")
-        self.VolumeSlider.setMaximum(1000)
-        self.VolumeSlider.setPageStep(100)
-        self.VolumeSlider.setProperty("value", 1000)
-        self.VolumeSlider.setOrientation(QtCore.Qt.Vertical)
-        self.VolumeSlider.setObjectName("VolumeSlider")
-        self.verticalLayout.addWidget(self.VolumeSlider)
-        self.gridLayout.addWidget(self.MediaContainer, 0, 0, 1, 1)
 
         self.retranslateUi(MediaPlayerWidget)
-        self.Volume.clicked['bool'].connect(self.VolumeSlider.setVisible) # type: ignore
         QtCore.QMetaObject.connectSlotsByName(MediaPlayerWidget)
         MediaPlayerWidget.setTabOrder(self.PlayPauseBtn, self.PrevBtn)
         MediaPlayerWidget.setTabOrder(self.PrevBtn, self.NextBtn)
         MediaPlayerWidget.setTabOrder(self.NextBtn, self.TimelineSlider)
-        MediaPlayerWidget.setTabOrder(self.TimelineSlider, self.Volume)
 
     def retranslateUi(self, MediaPlayerWidget):
         _translate = QtCore.QCoreApplication.translate
@@ -240,7 +243,7 @@ class Ui_MediaPlayerWidget(object):
         self.PrevBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Previous<br/>shortcut: &lt;Left Arrow&gt;</p></body></html>"))
         self.NextBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Next<br/>shortcut: &lt;Right Arrow&gt;</p></body></html>"))
         self.TimelineSlider.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>seek</p></body></html>"))
-        self.Volume.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Volume</p></body></html>"))
+        self.VolumeBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Volume</p></body></html>"))
 
 
 if __name__ == "__main__":
