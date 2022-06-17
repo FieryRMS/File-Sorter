@@ -17,7 +17,58 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(29, 29, 29);</string>
+   <string notr="true">QWidget#MediaPlayerWidget{
+	background-color: rgb(29, 29, 29);
+}
+
+QPushButton, QToolButton {
+    border: 2px solid black;
+    border-radius: 16px;
+    background: rgb(190, 190, 190)
+}
+
+QPushButton:hover, QToolButton:hover {
+	background-color: rgb(180, 180, 180);
+}
+
+QPushButton:pressed, QToolButton:presses {
+    background-color: rgb(160, 160, 160);
+}
+
+QSlider::groove { 
+	background-color: white;
+}
+
+QSlider::groove::horizontal {
+	height: 4px;
+}
+
+QSlider::groove::vertical {
+	width: 4px;
+}
+
+QSlider::handle { 
+	background-color: rgb(190, 190, 190); 
+	border-radius: 5px;
+}
+
+QSlider::handle::horizontal{
+	width: 10px;
+	margin: -8px, -8px;
+}
+
+QSlider::handle::vertical { 
+	height: 10px;
+	margin: 0 -8px 0;
+}
+
+QSlider::handle:hover {
+	background-color: rgb(180, 180, 180);
+}
+
+QSlider::handle:pressed {
+    background-color: rgb(160, 160, 160);
+}</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <property name="leftMargin">
@@ -86,15 +137,14 @@
          <enum>Qt::RightToLeft</enum>
         </property>
         <property name="styleSheet">
-         <string notr="true">QSlider::groove { 
+         <string notr="true">QSlider::groove::vertical {
 	background-color: white;
 	width: 4px;
 }
-
-QSlider::handle { 
-	background-color: rgb(190, 190, 190); 
+QSlider::handle::vertical { 
 	height: 10px;
 	margin: 0 -8px 0;
+	background-color: rgb(190, 190, 190); 
 	border-radius: 5px;
 }
 
@@ -177,33 +227,21 @@ QSlider::handle:pressed {
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::TabFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play/Pause&lt;br/&gt;shortcut: &amp;lt;spacebar&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border: 2px solid black;
-    border-radius: 16px;
-    background: rgb(190, 190, 190)
-    }
-
-QPushButton:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-QPushButton:pressed {
-    background-color: rgb(160, 160, 160);
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../assets/play.svg</normaloff>
-          <normalon>../assets/pause.svg</normalon>../assets/play.svg</iconset>
+         <iconset resource="MediaPlayer.qrc">
+          <normaloff>:/icons/assets/play.svg</normaloff>
+          <normalon>:/icons/assets/pause.svg</normalon>:/icons/assets/play.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -243,32 +281,20 @@ QPushButton:pressed {
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::TabFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previous&lt;br/&gt;shortcut: &amp;lt;Left Arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border: 2px solid black;
-    border-radius: 16px;
-    background: rgb(190, 190, 190)
-    }
-
-QPushButton:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-QPushButton:pressed {
-    background-color: rgb(160, 160, 160);
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../assets/skip-previous.svg</normaloff>../assets/skip-previous.svg</iconset>
+         <iconset resource="MediaPlayer.qrc">
+          <normaloff>:/icons/assets/skip-previous.svg</normaloff>:/icons/assets/skip-previous.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -308,32 +334,20 @@ QPushButton:pressed {
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::TabFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next&lt;br/&gt;shortcut: &amp;lt;Right Arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">QPushButton {
-    border: 2px solid black;
-    border-radius: 16px;
-    background: rgb(190, 190, 190)
-    }
-
-QPushButton:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-QPushButton:pressed {
-    background-color: rgb(160, 160, 160);
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../assets/skip-next.svg</normaloff>../assets/skip-next.svg</iconset>
+         <iconset resource="MediaPlayer.qrc">
+          <normaloff>:/icons/assets/skip-next.svg</normaloff>:/icons/assets/skip-next.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -361,31 +375,13 @@ QPushButton:pressed {
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;seek&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">QSlider::groove { 
-	background-color: white;
-	height: 4px;
-}
-
-QSlider::handle { 
-	background-color: rgb(190, 190, 190); 
-	width: 10px;
-	margin: -8px, -8px;
-	border-radius: 5px;
-}
-
-QSlider::handle:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-QSlider::handle:pressed {
-    background-color: rgb(160, 160, 160);
-}</string>
+         <string notr="true"/>
         </property>
         <property name="maximum">
          <number>10000</number>
         </property>
         <property name="pageStep">
-         <number>100</number>
+         <number>0</number>
         </property>
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -407,32 +403,20 @@ QSlider::handle:pressed {
          <cursorShape>PointingHandCursor</cursorShape>
         </property>
         <property name="focusPolicy">
-         <enum>Qt::TabFocus</enum>
+         <enum>Qt::NoFocus</enum>
         </property>
         <property name="toolTip">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="styleSheet">
-         <string notr="true">QToolButton {
-    border: 2px solid black;
-    border-radius: 16px;
-    background: rgb(190, 190, 190)
-    }
-
-QToolButton:hover {
-	background-color: rgb(180, 180, 180);
-}
-
-QToolButton:pressed {
-    background-color: rgb(160, 160, 160);
-}</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string/>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>../assets/volume-high.svg</normaloff>../assets/volume-high.svg</iconset>
+         <iconset resource="MediaPlayer.qrc">
+          <normaloff>:/icons/assets/volume-high.svg</normaloff>:/icons/assets/volume-high.svg</iconset>
         </property>
         <property name="iconSize">
          <size>
@@ -463,8 +447,10 @@ QToolButton:pressed {
   <tabstop>PlayPauseBtn</tabstop>
   <tabstop>PrevBtn</tabstop>
   <tabstop>NextBtn</tabstop>
-  <tabstop>TimelineSlider</tabstop>
+  <tabstop>VolumeBtn</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="MediaPlayer.qrc"/>
+ </resources>
  <connections/>
 </ui>

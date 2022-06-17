@@ -1,0 +1,12 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>../assets/pause.svg</file>
+    <file>../assets/play.svg</file>
+    <file>../assets/skip-next.svg</file>
+    <file>../assets/skip-previous.svg</file>
+    <file>../assets/volume-high.svg</file>
+    <file>../assets/volume-low.svg</file>
+    <file>../assets/volume-medium.svg</file>
+    <file>../assets/volume-off.svg</file>
+  </qresource>
+</RCC>
