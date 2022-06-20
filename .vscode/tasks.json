@@ -7,7 +7,11 @@
             "label": "Build UIs",
             "type": "shell",
             "command": "py 'Generate UIs.py'",
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+              }
         }
     ]
 }

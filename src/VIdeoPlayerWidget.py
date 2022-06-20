@@ -4,15 +4,13 @@ if(1):  # prevent formatter from formatting this
         'dlls/')
 from pathlib import Path
 from ui_videoplayerwidget import Ui_VideoPlayerWidget
-from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint, QRect
+from PyQt5.QtCore import Qt, pyqtSlot, QPoint, QRect
 from PyQt5 import QtWidgets, QtGui
 import mpv
 from numpy import interp
 
 
 class VideoPlayetrWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
-    percentpos = pyqtSignal(float, name="percentpos")
-
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
