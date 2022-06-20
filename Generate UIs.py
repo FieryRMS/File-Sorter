@@ -1,6 +1,6 @@
-from xml.etree import ElementTree
+from defusedxml import ElementTree
 from pathlib import Path
-from subprocess import run
+from subprocess import run  #nosec
 base_dir = "ui/"
 output_dir = "src/"
 

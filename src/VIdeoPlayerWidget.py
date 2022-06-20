@@ -3,25 +3,25 @@ if(1):  # prevent formatter from formatting this
     os.environ['PATH'] += os.pathsep + os.path.abspath(
         'dlls/')
 from pathlib import Path
-from ui_mediaplayerwidget import Ui_MediaPlayerWidget
+from ui_videoplayerwidget import Ui_VideoPlayerWidget
 from PyQt5.QtCore import Qt, pyqtSlot, pyqtSignal, QPoint, QRect
 from PyQt5 import QtWidgets, QtGui
 import mpv
 from numpy import interp
 
 
-class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
+class VideoPlayetrWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
     percentpos = pyqtSignal(float, name="percentpos")
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
 
-        # Attach video output to MediaContainer
-        self.MediaContainer.setAttribute(Qt.WA_DontCreateNativeAncestors)
-        self.MediaContainer.setAttribute(Qt.WA_NativeWindow)
+        # Attach video output to VideoContainer
+        self.VideoContainer.setAttribute(Qt.WA_DontCreateNativeAncestors)
+        self.VideoContainer.setAttribute(Qt.WA_NativeWindow)
         self.player = mpv.MPV(
-            wid=str(int(self.MediaContainer.winId()))
+            wid=str(int(self.VideoContainer.winId()))
         )
         self.UnPause(False)
         self.player.loop_playlist = 'inf'
@@ -49,7 +49,7 @@ class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
         self.isSeeking = False
         self.wasPlaying = False
 
-        self.MediaContainer.mouseReleaseEvent = self.MediaContClickUnPause
+        self.VideoContainer.mouseReleaseEvent = self.VideoContClickUnPause
 
         @self.player.property_observer('percent-pos')
         def time_observer(_, percentage):
@@ -112,8 +112,9 @@ class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
             self.TimelineSlider.setValue(int(val))
             percentage = interp(val, [self.TimelineSlider.minimum(),
                                       self.TimelineSlider.maximum()], [0, 100])
-            time = percentage*self.player.duration/100
-            self.player.seek(time, "absolute+exact")
+            if(self.player.duration):
+                time = percentage*self.player.duration/100
+                self.player.seek(time, "absolute+exact")
 
     def SetisSeeking(self, e):
         if e.button() == Qt.LeftButton:
@@ -165,11 +166,11 @@ class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
 
         QtWidgets.QDialog.closeEvent(self.VolumeSliderWrapper, e)
 
-    def MediaContClickUnPause(self, e):
+    def VideoContClickUnPause(self, e):
         if e.button() == Qt.LeftButton:
             self.TogglePause()
         else:
-            QtWidgets.QWidget.mousePressEvent(self.MediaContainer, e)
+            QtWidgets.QWidget.mousePressEvent(self.VideoContainer, e)
 
     def SetVolumeFromPercentage(self, percentage):
         if(percentage<0):
@@ -180,7 +181,7 @@ class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
             self.VolumeSlider.minimum(), self.VolumeSlider.maximum()])
         self.SetVolumeFromSliderValue(value)
 
-    def PlayMedia(self, FilePath: str):
+    def PlayVideo(self, FilePath: str):
         if(not Path(FilePath).is_file()):
             msg = QtWidgets.QMessageBox()
             msg.setIcon(QtWidgets.QMessageBox.Warning)
@@ -190,16 +191,16 @@ class MediaPlayetrWidget(QtWidgets.QWidget, Ui_MediaPlayerWidget):
             msg.exec_()
             return
 
-        if(FilePath.endswith(".mp4")):
-            self.player.play(FilePath)
+        # if(FilePath.endswith(".mp4")):
+        self.player.play(FilePath)
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MediaPlayerWidget = MediaPlayetrWidget()
-    MediaPlayerWidget.setWindowTitle("MediaPlayer")
-    MediaPlayerWidget.show()
-    MediaPlayerWidget.PlayMedia(r"test_files\1.mp4")
-    MediaPlayerWidget.SetVolumeFromPercentage(30)
+    VideoPlayerWidget = VideoPlayetrWidget()
+    VideoPlayerWidget.setWindowTitle("VideoPlayer")
+    VideoPlayerWidget.show()
+    VideoPlayerWidget.PlayVideo(r"test_files\1.mp4")
+    VideoPlayerWidget.SetVolumeFromPercentage(30)
     sys.exit(app.exec_())

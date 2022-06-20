@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ui\MediaPlayer.ui'
+# Form implementation generated from reading ui file 'ui\VideoPlayer.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.6
 #
@@ -11,12 +11,12 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_MediaPlayerWidget(object):
-    def setupUi(self, MediaPlayerWidget):
-        MediaPlayerWidget.setObjectName("MediaPlayerWidget")
-        MediaPlayerWidget.resize(718, 542)
-        MediaPlayerWidget.setFocusPolicy(QtCore.Qt.NoFocus)
-        MediaPlayerWidget.setStyleSheet("QWidget#MediaPlayerWidget{\n"
+class Ui_VideoPlayerWidget(object):
+    def setupUi(self, VideoPlayerWidget):
+        VideoPlayerWidget.setObjectName("VideoPlayerWidget")
+        VideoPlayerWidget.resize(718, 542)
+        VideoPlayerWidget.setFocusPolicy(QtCore.Qt.NoFocus)
+        VideoPlayerWidget.setStyleSheet("QWidget#VideoPlayerWidget{\n"
 "    background-color: rgb(29, 29, 29);\n"
 "}\n"
 "\n"
@@ -68,20 +68,20 @@ class Ui_MediaPlayerWidget(object):
 "QSlider::handle:pressed {\n"
 "    background-color: rgb(160, 160, 160);\n"
 "}")
-        self.gridLayout = QtWidgets.QGridLayout(MediaPlayerWidget)
+        self.gridLayout = QtWidgets.QGridLayout(VideoPlayerWidget)
         self.gridLayout.setContentsMargins(5, 5, 5, 5)
         self.gridLayout.setSpacing(0)
         self.gridLayout.setObjectName("gridLayout")
-        self.MediaContainer = QtWidgets.QWidget(MediaPlayerWidget)
-        self.MediaContainer.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.MediaContainer.setLayoutDirection(QtCore.Qt.LeftToRight)
-        self.MediaContainer.setStyleSheet("background-color: rgb(0, 0, 0);")
-        self.MediaContainer.setObjectName("MediaContainer")
-        self.verticalLayout = QtWidgets.QVBoxLayout(self.MediaContainer)
+        self.VideoContainer = QtWidgets.QWidget(VideoPlayerWidget)
+        self.VideoContainer.setFocusPolicy(QtCore.Qt.NoFocus)
+        self.VideoContainer.setLayoutDirection(QtCore.Qt.LeftToRight)
+        self.VideoContainer.setStyleSheet("background-color: rgb(0, 0, 0);")
+        self.VideoContainer.setObjectName("VideoContainer")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.VideoContainer)
         self.verticalLayout.setContentsMargins(5, -1, 3, 5)
         self.verticalLayout.setSpacing(0)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.VolumeSlider = QtWidgets.QSlider(self.MediaContainer)
+        self.VolumeSlider = QtWidgets.QSlider(self.VideoContainer)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -115,8 +115,8 @@ class Ui_MediaPlayerWidget(object):
         self.VolumeSlider.setOrientation(QtCore.Qt.Vertical)
         self.VolumeSlider.setObjectName("VolumeSlider")
         self.verticalLayout.addWidget(self.VolumeSlider)
-        self.gridLayout.addWidget(self.MediaContainer, 0, 0, 1, 1)
-        self.VideoController = QtWidgets.QFrame(MediaPlayerWidget)
+        self.gridLayout.addWidget(self.VideoContainer, 0, 0, 1, 1)
+        self.VideoController = QtWidgets.QFrame(VideoPlayerWidget)
         self.VideoController.setMaximumSize(QtCore.QSize(16777215, 35))
         self.VideoController.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.VideoController.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -215,28 +215,28 @@ class Ui_MediaPlayerWidget(object):
         self.horizontalLayout.addWidget(self.VolumeBtn)
         self.gridLayout.addWidget(self.VideoController, 2, 0, 1, 1)
 
-        self.retranslateUi(MediaPlayerWidget)
-        QtCore.QMetaObject.connectSlotsByName(MediaPlayerWidget)
-        MediaPlayerWidget.setTabOrder(self.PlayPauseBtn, self.PrevBtn)
-        MediaPlayerWidget.setTabOrder(self.PrevBtn, self.NextBtn)
-        MediaPlayerWidget.setTabOrder(self.NextBtn, self.VolumeBtn)
+        self.retranslateUi(VideoPlayerWidget)
+        QtCore.QMetaObject.connectSlotsByName(VideoPlayerWidget)
+        VideoPlayerWidget.setTabOrder(self.PlayPauseBtn, self.PrevBtn)
+        VideoPlayerWidget.setTabOrder(self.PrevBtn, self.NextBtn)
+        VideoPlayerWidget.setTabOrder(self.NextBtn, self.VolumeBtn)
 
-    def retranslateUi(self, MediaPlayerWidget):
+    def retranslateUi(self, VideoPlayerWidget):
         _translate = QtCore.QCoreApplication.translate
-        MediaPlayerWidget.setWindowTitle(_translate("MediaPlayerWidget", "Form"))
-        self.PlayPauseBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Play/Pause<br/>shortcut: &lt;spacebar&gt;</p></body></html>"))
-        self.PrevBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Previous<br/>shortcut: &lt;Left Arrow&gt;</p></body></html>"))
-        self.NextBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Next<br/>shortcut: &lt;Right Arrow&gt;</p></body></html>"))
-        self.TimelineSlider.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>seek</p></body></html>"))
-        self.VolumeBtn.setToolTip(_translate("MediaPlayerWidget", "<html><head/><body><p>Volume</p></body></html>"))
-import MediaPlayer_rc
+        VideoPlayerWidget.setWindowTitle(_translate("VideoPlayerWidget", "Form"))
+        self.PlayPauseBtn.setToolTip(_translate("VideoPlayerWidget", "<html><head/><body><p>Play/Pause<br/>shortcut: &lt;spacebar&gt;</p></body></html>"))
+        self.PrevBtn.setToolTip(_translate("VideoPlayerWidget", "<html><head/><body><p>Previous<br/>shortcut: &lt;Left Arrow&gt;</p></body></html>"))
+        self.NextBtn.setToolTip(_translate("VideoPlayerWidget", "<html><head/><body><p>Next<br/>shortcut: &lt;Right Arrow&gt;</p></body></html>"))
+        self.TimelineSlider.setToolTip(_translate("VideoPlayerWidget", "<html><head/><body><p>seek</p></body></html>"))
+        self.VolumeBtn.setToolTip(_translate("VideoPlayerWidget", "<html><head/><body><p>Volume</p></body></html>"))
+import VideoPlayerAssets_rc
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    MediaPlayerWidget = QtWidgets.QWidget()
-    ui = Ui_MediaPlayerWidget()
-    ui.setupUi(MediaPlayerWidget)
-    MediaPlayerWidget.show()
+    VideoPlayerWidget = QtWidgets.QWidget()
+    ui = Ui_VideoPlayerWidget()
+    ui.setupUi(VideoPlayerWidget)
+    VideoPlayerWidget.show()
     sys.exit(app.exec_())

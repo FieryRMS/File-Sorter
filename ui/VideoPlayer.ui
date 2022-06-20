@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>MediaPlayerWidget</class>
- <widget class="QWidget" name="MediaPlayerWidget">
+ <class>VideoPlayerWidget</class>
+ <widget class="QWidget" name="VideoPlayerWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget#MediaPlayerWidget{
+   <string notr="true">QWidget#VideoPlayerWidget{
 	background-color: rgb(29, 29, 29);
 }
 
@@ -87,7 +87,7 @@ QSlider::handle:pressed {
     <number>0</number>
    </property>
    <item row="0" column="0">
-    <widget class="QWidget" name="MediaContainer" native="true">
+    <widget class="QWidget" name="VideoContainer" native="true">
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
@@ -239,7 +239,7 @@ QSlider::handle:pressed {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="MediaPlayer.qrc">
+         <iconset resource="VideoPlayerAssets.qrc">
           <normaloff>:/icons/assets/play.svg</normaloff>
           <normalon>:/icons/assets/pause.svg</normalon>:/icons/assets/play.svg</iconset>
         </property>
@@ -293,7 +293,7 @@ QSlider::handle:pressed {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="MediaPlayer.qrc">
+         <iconset resource="VideoPlayerAssets.qrc">
           <normaloff>:/icons/assets/skip-previous.svg</normaloff>:/icons/assets/skip-previous.svg</iconset>
         </property>
         <property name="iconSize">
@@ -346,7 +346,7 @@ QSlider::handle:pressed {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="MediaPlayer.qrc">
+         <iconset resource="VideoPlayerAssets.qrc">
           <normaloff>:/icons/assets/skip-next.svg</normaloff>:/icons/assets/skip-next.svg</iconset>
         </property>
         <property name="iconSize">
@@ -415,7 +415,7 @@ QSlider::handle:pressed {
          <string/>
         </property>
         <property name="icon">
-         <iconset resource="MediaPlayer.qrc">
+         <iconset resource="VideoPlayerAssets.qrc">
           <normaloff>:/icons/assets/volume-high.svg</normaloff>:/icons/assets/volume-high.svg</iconset>
         </property>
         <property name="iconSize">
@@ -450,7 +450,7 @@ QSlider::handle:pressed {
   <tabstop>VolumeBtn</tabstop>
  </tabstops>
  <resources>
-  <include location="MediaPlayer.qrc"/>
+  <include location="VideoPlayerAssets.qrc"/>
  </resources>
  <connections/>
 </ui>
