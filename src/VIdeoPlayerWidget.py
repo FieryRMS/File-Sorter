@@ -3,14 +3,18 @@ if(1):  # prevent formatter from formatting this
     os.environ['PATH'] += os.pathsep + os.path.abspath(
         'dlls/')
 from pathlib import Path
-from ui_videoplayerwidget import Ui_VideoPlayerWidget
+from builds.ui_videoplayerwidget import Ui_VideoPlayerWidget
 from PyQt5.QtCore import Qt, pyqtSlot, QPoint, QRect
 from PyQt5 import QtWidgets, QtGui
 import mpv
 from numpy import interp
 
 
-class VideoPlayetrWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
+class VideoPlayerWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
+    VIDEOTYPES = (".mp4", ".mp3", ".ogg", ".apng",
+                  ".mov", ".mpjpeg", ".mkv", ".avi", ".aac", ".m4v" ".oga", ".opus", ".wav",
+                  ".webm")
+
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
@@ -171,34 +175,31 @@ class VideoPlayetrWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
             QtWidgets.QWidget.mousePressEvent(self.VideoContainer, e)
 
     def SetVolumeFromPercentage(self, percentage):
-        if(percentage<0):
-            percentage=0
-        elif(percentage>100):
-            percentage=100
+        if(percentage < 0):
+            percentage = 0
+        elif(percentage > 100):
+            percentage = 100
         value = interp(percentage, [0, 100], [
             self.VolumeSlider.minimum(), self.VolumeSlider.maximum()])
         self.SetVolumeFromSliderValue(value)
 
     def PlayVideo(self, FilePath: str):
         if(not Path(FilePath).is_file()):
-            msg = QtWidgets.QMessageBox()
-            msg.setIcon(QtWidgets.QMessageBox.Warning)
-            msg.setText("Error: Could not find file")
-            msg.setInformativeText('The specified file could not be opened')
-            msg.setWindowTitle("Error")
-            msg.exec_()
+            print("file not found")
             return
 
-        # if(FilePath.endswith(".mp4")):
-        self.player.play(FilePath)
+        if(FilePath.endswith(self.VIDEOTYPES)):
+            self.player.play(FilePath)
+        else:
+            print("unknown file format")
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    VideoPlayerWidget = VideoPlayetrWidget()
-    VideoPlayerWidget.setWindowTitle("VideoPlayer")
-    VideoPlayerWidget.show()
-    VideoPlayerWidget.PlayVideo(r"test_files\1.mp4")
-    VideoPlayerWidget.SetVolumeFromPercentage(30)
+    VideoPlayer = VideoPlayerWidget()
+    VideoPlayer.setWindowTitle("VideoPlayer")
+    VideoPlayer.show()
+    VideoPlayer.PlayVideo(r"test_files\1.mp4")
+    VideoPlayer.SetVolumeFromPercentage(30)
     sys.exit(app.exec_())

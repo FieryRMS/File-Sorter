@@ -1,10 +1,10 @@
 from defusedxml import ElementTree
 from pathlib import Path
 from subprocess import run  #nosec
-base_dir = "ui/"
-output_dir = "src/"
+ui_dir = "ui/"
+output_dir = "src/builds/"
 
-InputFiles = Path(base_dir).glob('*.[uq][ir]*')
+InputFiles = Path(ui_dir).glob('*.[uq][ir]*')
 for InputFile in InputFiles:
     OutputFileName=""
     if(str(InputFile).endswith('.ui')):

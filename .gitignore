@@ -4,3 +4,4 @@ dlls
 *.7z
 test_files
 __pycache__
+builds
