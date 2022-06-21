@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icons">
+    <file>../assets/clipboard-file-outline.svg</file>
+    <file>../assets/delete.svg</file>
     <file>../assets/pause.svg</file>
     <file>../assets/play.svg</file>
     <file>../assets/skip-next.svg</file>

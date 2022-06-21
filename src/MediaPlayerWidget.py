@@ -1,5 +1,5 @@
-from VideoPlayerWidget import VideoPlayerWidget
-from ImagePdfViewerWidget import ImagePdfViewerWidget
+from .VideoPlayerWidget import VideoPlayerWidget
+from .ImagePdfViewerWidget import ImagePdfViewerWidget
 
 import sys
 from PyQt5 import QtWidgets
@@ -13,6 +13,10 @@ class MediaPlayerWidget(QtWidgets.QWidget):
     UnknownFileText = """
 <table align="center" cellpadding="4px" style="font-size:15px;border-collapse: collapse;">
     <tbody>
+        <tr>
+            <td style="border-bottom: 1px solid white">Unsupported file format:</td>
+            <td style="border-bottom: 1px solid white"></td>
+        </tr>
         <tr>
             <td style="border-bottom: 1px solid white">Name:</td>
             <td style="border-bottom: 1px solid white">{NAME}</td>
@@ -53,8 +57,10 @@ class MediaPlayerWidget(QtWidgets.QWidget):
         self.StackedLayout.addWidget(self.ImagePdfViewer)
         self.StackedLayout.addWidget(self.UnknownFile)
 
+        self.UnknownFile.setText("""
+        <p style="text-align:center"><span style="font-size:18px">Open or drop files to browse directory...</span></p>
+""")
         self.StackedLayout.setCurrentWidget(self.UnknownFile)
-
     def get_file_metadata(self, path, filename):
         # https://stackoverflow.com/a/63662404
         metadata = ['Name', 'Size', 'Item type',
@@ -99,6 +105,6 @@ if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     ui = MediaPlayerWidget()
     ui.resize(660, 480)
-    ui.OpenFile(r"test_files\10.zip")
+    ui.OpenFile(r"test_files\1.mp4")
     ui.show()
     sys.exit(app.exec_())

@@ -3,7 +3,7 @@ if(1):  # prevent formatter from formatting this
     os.environ['PATH'] += os.pathsep + os.path.abspath(
         'dlls/')
 from pathlib import Path
-from builds.ui_videoplayerwidget import Ui_VideoPlayerWidget
+from .builds.ui_videoplayerwidget import Ui_VideoPlayerWidget
 from PyQt5.QtCore import Qt, pyqtSlot, QPoint, QRect
 from PyQt5 import QtWidgets, QtGui
 import mpv
@@ -29,7 +29,7 @@ class VideoPlayerWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
         self.player.loop_playlist = 'inf'
 
         # Make the slider into a popup, slider doesnt render when mpv is attached
-        self.verticalLayout.removeWidget(self.VolumeSlider)
+        self.VideoContainerLayout.removeWidget(self.VolumeSlider)
         self.VolumeSliderWrapper = QtWidgets.QDialog()
         self.VolumeSlider.setParent(self.VolumeSliderWrapper)
         self.VolumeSliderWrapper.setStyleSheet("background: transparent")
