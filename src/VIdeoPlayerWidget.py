@@ -13,7 +13,7 @@ from numpy import interp
 class VideoPlayerWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
     VIDEOTYPES = (".mp4", ".mp3", ".ogg", ".apng",
                   ".mov", ".mpjpeg", ".mkv", ".avi", ".aac", ".m4v" ".oga", ".opus", ".wav",
-                  ".webm")
+                  ".webm", ".gif")
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
@@ -184,12 +184,15 @@ class VideoPlayerWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
         self.SetVolumeFromSliderValue(value)
 
     def PlayVideo(self, FilePath: str):
+        self.player.play(FilePath)
+        
+    def OpenVideo(self, FilePath: str):
         if(not Path(FilePath).is_file()):
             print("file not found")
             return
 
         if(FilePath.endswith(self.VIDEOTYPES)):
-            self.player.play(FilePath)
+            self.PlayVideo(FilePath)
         else:
             print("unknown file format")
 
@@ -200,6 +203,6 @@ if __name__ == "__main__":
     VideoPlayer = VideoPlayerWidget()
     VideoPlayer.setWindowTitle("VideoPlayer")
     VideoPlayer.show()
-    VideoPlayer.PlayVideo(r"test_files\1.mp4")
+    VideoPlayer.OpenVideo(r"test_files\1.mp4")
     VideoPlayer.SetVolumeFromPercentage(30)
     sys.exit(app.exec_())

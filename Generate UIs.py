@@ -10,7 +10,8 @@ for InputFile in InputFiles:
     if(str(InputFile).endswith('.ui')):
         ClassName = ElementTree.parse(InputFile).getroot()[0].text
         OutputFileName = "ui_" + ClassName.lower() + ".py"
-        run(["pyuic5", '-x', InputFile, "-o", output_dir+OutputFileName])
+        run(["pyuic5", '-x', InputFile, "-o",
+            output_dir+OutputFileName, "--from-imports"])
     elif(str(InputFile).endswith('.qrc')):
         OutputFileName=InputFile.name[:-4]+'_rc.py'
         run(["pyrcc5", InputFile, "-o", output_dir+OutputFileName])

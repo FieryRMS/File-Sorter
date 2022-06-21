@@ -21,7 +21,7 @@ class ImagePdfViewerWidget(QWebEngineView):
         self.isPdf = False
         self.isImage = False
 
-    def LoadPdf(self, uri):
+    def OpenPdf(self, uri):
         if(self.isPdf):
             self.page().runJavaScript('PDFViewerApplication.open({})'.format(uri))
         else:
@@ -29,23 +29,23 @@ class ImagePdfViewerWidget(QWebEngineView):
             self.isPdf = True
             self.isImage = False
 
-    def LoadImage(self, uri):
-        if(self.isPdf):
+    def OpenImage(self, uri):
+        if(self.isImage):
             self.page().runJavaScript('OpenImage({})'.format(uri))
         else:
             self.load(QUrl(IVVIEWER+"?file={}".format(uri)))
             self.isPdf = False
             self.isImage = True
 
-    def LoadFile(self, path: str):
-        if(not Path(path).is_file()):
+    def OpenFile(self, FilePath: str):
+        if(not Path(FilePath).is_file()):
             print("file not found")
             return
 
-        if(path.endswith(".pdf")):
-            self.LoadPdf(Path(path).resolve().as_uri())
-        elif(path.endswith(self.IMAGETYPES)):
-            self.LoadImage(Path(path).resolve().as_uri())
+        if(FilePath.endswith(".pdf")):
+            self.OpenPdf(Path(FilePath).resolve().as_uri())
+        elif(FilePath.endswith(self.IMAGETYPES)):
+            self.OpenImage(Path(FilePath).resolve().as_uri())
         else:
             print("unknown file format")
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     window = ImagePdfViewerWidget()
     window.setGeometry(200, 50, 800, 600)
-    window.LoadFile(r"test_files\6.webp")
+    window.OpenFile(r"test_files\6.webp")
     window.show()
     # window.DevWindow()
     sys.exit(app.exec_())

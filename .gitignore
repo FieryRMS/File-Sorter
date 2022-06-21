@@ -1,4 +1,5 @@
 tests
+tests.*
 dlls
 *.zip
 *.7z
