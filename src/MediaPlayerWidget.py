@@ -1,14 +1,15 @@
-from .VideoPlayerWidget import VideoPlayerWidget
-from .ImagePdfViewerWidget import ImagePdfViewerWidget
+from VideoPlayerWidget import VideoPlayerWidget
+from ImagePdfViewerWidget import ImagePdfViewerWidget
 
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 from pathlib import Path
 from win32com.client.gencache import EnsureDispatch
 
 
 class MediaPlayerWidget(QtWidgets.QWidget):
+    dropOpen = pyqtSignal(str, name="dropOpen")
 
     UnknownFileText = """
 <table align="center" cellpadding="4px" style="font-size:15px;border-collapse: collapse;">
@@ -43,6 +44,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
+        self.setAcceptDrops(True)
         self.VideoPlayer = VideoPlayerWidget(self)
         self.ImagePdfViewer = ImagePdfViewerWidget(self)
 
@@ -58,9 +60,10 @@ class MediaPlayerWidget(QtWidgets.QWidget):
         self.StackedLayout.addWidget(self.UnknownFile)
 
         self.UnknownFile.setText("""
-        <p style="text-align:center"><span style="font-size:18px">Open or drop files to browse directory...</span></p>
+        <p style="text-align:center"><span style="font-size:18px">Drop files to open...</span></p>
 """)
         self.StackedLayout.setCurrentWidget(self.UnknownFile)
+
     def get_file_metadata(self, path, filename):
         # https://stackoverflow.com/a/63662404
         metadata = ['Name', 'Size', 'Item type',
@@ -99,12 +102,24 @@ class MediaPlayerWidget(QtWidgets.QWidget):
             ))
             self.StackedLayout.setCurrentWidget(self.UnknownFile)
 
+    def dragEnterEvent(self, event):
+        if(event.mimeData().hasUrls() and len(event.mimeData().urls()) == 1
+                and event.mimeData().urls()[0].isLocalFile()):
+            event.accept()
+        else:
+            event.ignore()
+
+    def dropEvent(self, event):
+        f = event.mimeData().urls()[0].toLocalFile()
+        self.OpenFile(f)
+        self.dropOpen.emit(f)
+
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     ui = MediaPlayerWidget()
     ui.resize(660, 480)
-    ui.OpenFile(r"test_files\1.mp4")
+    # ui.OpenFile(r"test_files\1.mp4")
     ui.show()
     sys.exit(app.exec_())

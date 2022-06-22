@@ -10,7 +10,7 @@
   top: 0;
   left: 0;
   display: none;
-  z-index: 1000;
+  z-index: 10000;
 }
 .iv-fullscreen-container {
   position: relative;
@@ -56,7 +56,7 @@
   top: 20px;
   border: 1px solid #aaa;
   background: black;
-  z-index: 100;
+  z-index: 1000;
   box-sizing: content-box;
   transition: opacity ease 400ms;
   opacity: 0;
@@ -182,7 +182,7 @@
   border-radius: 50%;
   width: 32px;
   height: 32px;
-  z-index: 100;
+  z-index: 1000;
   margin-top: -16px;
   margin-left: -16px;
   font-size: 5px;
@@ -223,7 +223,7 @@
   left:50%;
   transform: translateX(-50%);
   transition: opacity ease 400ms;
-  z-index: 100;
+  z-index: 1000;
   user-select: none;
 }
 
@@ -237,6 +237,9 @@
   display: inline-block;
   padding: 7px;
   transition: color 100ms;
+  width: 16px;
+  height: 16px;
+
 }
 .iv-dashboard>.iv-btn:hover,
 .iv-dashboard>.iv-btn:focus {

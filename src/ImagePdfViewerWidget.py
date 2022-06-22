@@ -4,9 +4,8 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtCore import Qt, QUrl
 from pathlib import Path
 
-PDFJS = Path(__file__).parent.joinpath("pdfjs/index.html").resolve().as_uri()
-IVVIEWER = Path(__file__).parent.joinpath(
-    "iv-viewer/index.html").resolve().as_uri()
+IMAGEPDFVIEWER = Path(__file__).parent.joinpath(
+    "imagepdfviewer/index.html").resolve().as_uri()
 
 
 class ImagePdfViewerWidget(QWebEngineView):
@@ -15,27 +14,15 @@ class ImagePdfViewerWidget(QWebEngineView):
 
     def __init__(self, parent=None):
         super().__init__(parent=parent)
-        self.setHtml(r"<style>*{background:#0d0d0d;}</style>")
         self.setContextMenuPolicy(Qt.NoContextMenu)
-        
-        self.isPdf = False
-        self.isImage = False
+        self.setAcceptDrops(False)
+        self.load(QUrl(IMAGEPDFVIEWER))
 
     def OpenPdf(self, uri):
-        if(self.isPdf):
-            self.page().runJavaScript('PDFViewerApplication.open({})'.format(uri))
-        else:
-            self.load(QUrl(PDFJS+"?file={}".format(uri)))
-            self.isPdf = True
-            self.isImage = False
+        self.page().runJavaScript(f"OpenPdf('{uri}')")
 
     def OpenImage(self, uri):
-        if(self.isImage):
-            self.page().runJavaScript('OpenImage({})'.format(uri))
-        else:
-            self.load(QUrl(IVVIEWER+"?file={}".format(uri)))
-            self.isPdf = False
-            self.isImage = True
+        self.page().runJavaScript(f"OpenImage('{uri}')")            
 
     def OpenFile(self, FilePath: str):
         if(not Path(FilePath).is_file()):
