@@ -3,7 +3,7 @@ if(1):  # prevent formatter from formatting this
     os.environ['PATH'] += os.pathsep + os.path.abspath(
         'dlls/')
 from pathlib import Path
-from builds.ui_videoplayerwidget import Ui_VideoPlayerWidget
+from .builds.ui_videoplayerwidget import Ui_VideoPlayerWidget
 from PyQt5.QtCore import Qt, pyqtSlot, QPoint, QRect
 from PyQt5 import QtWidgets, QtGui
 import mpv

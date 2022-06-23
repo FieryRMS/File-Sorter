@@ -16,7 +16,7 @@
 }
 
 #VideoContainer{
-	background-color: rgb(0, 0, 0);
+	background: black;
 }
 
 QPushButton, QToolButton {
@@ -26,15 +26,15 @@ QPushButton, QToolButton {
 }
 
 QPushButton:hover, QToolButton:hover {
-	background-color: rgb(180, 180, 180);
+	background: rgb(180, 180, 180);
 }
 
-QPushButton:pressed, QToolButton:presses {
-    background-color: rgb(160, 160, 160);
+QPushButton:pressed, QToolButton:pressed {
+    background: rgb(160, 160, 160);
 }
 
 QSlider::groove { 
-	background-color: white;
+	background: white;
 }
 
 QSlider::groove::horizontal {
@@ -61,11 +61,11 @@ QSlider::handle::vertical {
 }
 
 QSlider::handle:hover {
-	background-color: rgb(180, 180, 180);
+	background: rgb(180, 180, 180);
 }
 
 QSlider::handle:pressed {
-    background-color: rgb(160, 160, 160);
+    background: rgb(160, 160, 160);
 }</string>
   </property>
   <layout class="QGridLayout" name="VideoPlayerWidgetLayout">

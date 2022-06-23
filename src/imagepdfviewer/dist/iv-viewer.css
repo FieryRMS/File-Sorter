@@ -256,3 +256,7 @@
 .iv-icon>img {
   user-select: none;
 }
+
+html{
+  background: #333333;
+}

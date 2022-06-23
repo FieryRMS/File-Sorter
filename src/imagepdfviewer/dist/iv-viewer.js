@@ -209,6 +209,7 @@
     if (options.src) elem.src = options.src;
     if (options.style) elem.style.cssText = options.style;
     if (options.child) elem.appendChild(options.child); // Insert before
+    if (options.undraggable) elem.setAttribute('draggable', false);
 
     if (options.insertBefore) {
       options.parent.insertBefore(elem, options.insertBefore); // Standard append
@@ -1261,14 +1262,16 @@
           tagName: 'img',
           className: 'iv-image iv-small-image',
           src: imageSrc,
-          parent: imageWrap
+          parent: imageWrap,
+          undraggable: true
         });
 
         var snapImageImg = createElement({
           tagName: 'img',
           src: imageSrc,
           parent: snapImage,
-          style: 'max-width: 150px; max-height: 150px;'
+          style: 'max-width: 150px; max-height: 150px;',
+          undraggable: true
         });
         
         this._state.loaded = false; // store image reference in _elements
@@ -1334,7 +1337,8 @@
           className: 'iv-image iv-large-image',
           src: hiResImageSrc,
           parent: imageWrap,
-          style: lowResImg.style.cssText
+          style: lowResImg.style.cssText,
+          undraggable: true
         }); // add all the style attributes from lowResImg to highResImg
 
         hiResImage.style.cssText = lowResImg.style.cssText;

@@ -1,5 +1,5 @@
-from VideoPlayerWidget import VideoPlayerWidget
-from ImagePdfViewerWidget import ImagePdfViewerWidget
+from .VideoPlayerWidget import VideoPlayerWidget
+from .ImagePdfViewerWidget import ImagePdfViewerWidget
 
 import sys
 from PyQt5 import QtWidgets
@@ -9,7 +9,7 @@ from win32com.client.gencache import EnsureDispatch
 
 
 class MediaPlayerWidget(QtWidgets.QWidget):
-    dropOpen = pyqtSignal(str, name="dropOpen")
+    dropOpen = pyqtSignal(str, bool, name="dropOpen")
 
     UnknownFileText = """
 <table align="center" cellpadding="4px" style="font-size:15px;border-collapse: collapse;">
@@ -100,6 +100,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
                 DATEC=metadata['Date modified'],
                 DATEM=metadata['Date created']
             ))
+            self.ImagePdfViewer.HideAll()
             self.StackedLayout.setCurrentWidget(self.UnknownFile)
 
     def dragEnterEvent(self, event):
@@ -112,7 +113,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
     def dropEvent(self, event):
         f = event.mimeData().urls()[0].toLocalFile()
         self.OpenFile(f)
-        self.dropOpen.emit(f)
+        self.dropOpen.emit(f, True)
 
 
 if __name__ == "__main__":

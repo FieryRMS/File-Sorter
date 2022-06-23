@@ -22,7 +22,10 @@ class ImagePdfViewerWidget(QWebEngineView):
         self.page().runJavaScript(f"OpenPdf('{uri}')")
 
     def OpenImage(self, uri):
-        self.page().runJavaScript(f"OpenImage('{uri}')")            
+        self.page().runJavaScript(f"OpenImage('{uri}')")
+
+    def HideAll(self):
+        self.page().runJavaScript("HideAll()")
 
     def OpenFile(self, FilePath: str):
         if(not Path(FilePath).is_file()):
