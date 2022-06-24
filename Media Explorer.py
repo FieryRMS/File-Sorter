@@ -1,12 +1,13 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtCore import QUrl, QMimeData, QSize, QSettings
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import QUrl, QMimeData, QSize, QSettings, Qt
+from PyQt5.QtGui import QIcon, QPixmap, QKeyEvent, QKeySequence
 from src.builds.ui_mainwindow import Ui_MainWindow
 from src.MediaPlayerWidget import MediaPlayerWidget
 from pathlib import Path
 import os
 from src.QuickActionBtn import QuickActionBtn
+import bisect
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -90,13 +91,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.AddMoveActionDialog.setDirectory(LastUsedPath)
         self.AddCopyActionDialog.setDirectory(LastUsedPath)
         self.AddSubdirMoveActionDialog.setDirectory(LastUsedPath)
-        
+
         self.settings.setValue("init/LastUsedPath", LastUsedPath)
 
     def initFileList(self, Dir):
-        self.FileList = [str(p) for p in Path(
-            Dir).resolve().iterdir() if p.is_file()]
-        self.FileList.sort(key=lambda e: os.path.getmtime(e), reverse=True)
+        self.FileList = []
+        for p in Path(Dir).resolve().iterdir():
+            if p.is_file():
+                bisect.insort(self.FileList, str(
+                    p), key=lambda e: -1*os.path.getmtime(e))
+
+    def keyPressEvent(self, e: QKeyEvent):
+        if(e.key() == Qt.Key.Key_Space):
+            self.MediaPlayerWidget.VideoPlayer.TogglePause()
+        elif(e.key() == Qt.Key.Key_Right):
+            self.NextFile()
+        elif(e.key() == Qt.Key.Key_Left):
+            self.PrevFile()
+        elif(e.matches(QKeySequence.StandardKey.Copy)):
+            self.CopyToClip()
+        elif(e.matches(QKeySequence.StandardKey.Undo)):
+            self.UndoPrevAction()
 
     def OpenFolder(self, Dir):
         if(not Path(Dir).is_dir()):
@@ -195,13 +210,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def ActionBtnClicked(self, btn: QuickActionBtn):
         if(self.CurrFileIdx == -1):
             return
-        btn.ExecuteTask(self.FileList[self.CurrFileIdx])
+        # file is no longer at path
+        if(not btn.ExecuteTask(self.FileList[self.CurrFileIdx])):
+            del self.FileList[self.CurrFileIdx]
+            self.CurrFileIdx -= 1
+            self.NextFile()
         self.PrevTasksList.append(btn)
 
     def UndoPrevAction(self):
         if(len(self.PrevTasksList) == 0):
             return
-        self.PrevTasksList[-1].UnExecuteTask()
+        FilePath = self.PrevTasksList[-1].UnExecuteTask()
+        def key(e): return -1*os.path.getmtime(e)
+        self.CurrFileIdx = bisect.bisect(self.FileList, key(FilePath),
+                                         key=key)
+        self.FileList.insert(self.CurrFileIdx, FilePath)
+        self.MediaPlayerWidget.OpenFile(self.FileList[self.CurrFileIdx])
         self.PrevTasksList.pop()
 
 

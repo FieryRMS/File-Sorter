@@ -119,6 +119,9 @@ QSlider::handle:pressed {
              <height>120</height>
             </size>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="styleSheet">
             <string notr="true">QSlider::groove::vertical {
 	background-color: white;
@@ -206,6 +209,9 @@ QSlider::handle:pressed {
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
            </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Play/Pause&lt;br/&gt;shortcut: &amp;lt;spacebar&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -227,6 +233,9 @@ QSlider::handle:pressed {
          </item>
          <item>
           <widget class="QSlider" name="TimelineSlider">
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
+           </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;seek&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
@@ -245,6 +254,9 @@ QSlider::handle:pressed {
           <widget class="QToolButton" name="VolumeBtn">
            <property name="cursor">
             <cursorShape>PointingHandCursor</cursorShape>
+           </property>
+           <property name="focusPolicy">
+            <enum>Qt::NoFocus</enum>
            </property>
            <property name="toolTip">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Volume&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

@@ -89,6 +89,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
         elif(FilePath.endswith(".pdf") or
              FilePath.endswith(self.ImagePdfViewer.IMAGETYPES)):
             self.ImagePdfViewer.OpenFile(FilePath)
+            self.VideoPlayer.StopVideo()
             self.StackedLayout.setCurrentWidget(self.ImagePdfViewer)
         else:
             path = Path(FilePath).resolve()
@@ -101,6 +102,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
                 DATEM=metadata['Date created']
             ))
             self.ImagePdfViewer.HideAll()
+            self.VideoPlayer.StopVideo()
             self.StackedLayout.setCurrentWidget(self.UnknownFile)
 
     def dragEnterEvent(self, event):

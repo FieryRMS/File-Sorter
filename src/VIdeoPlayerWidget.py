@@ -185,7 +185,10 @@ class VideoPlayerWidget(QtWidgets.QWidget, Ui_VideoPlayerWidget):
 
     def PlayVideo(self, FilePath: str):
         self.player.play(FilePath)
-        
+
+    def StopVideo(self):
+        self.player.stop()
+
     def OpenVideo(self, FilePath: str):
         if(not Path(FilePath).is_file()):
             print("file not found")

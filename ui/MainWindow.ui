@@ -10,6 +10,9 @@
     <height>489</height>
    </rect>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="windowTitle">
    <string>File Sorter</string>
   </property>
@@ -175,6 +178,9 @@ QPushButton:pressed, QToolButton:pressed {
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
+            </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previous File&lt;br/&gt;shortcut:&amp;lt;left arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
@@ -212,6 +218,9 @@ QPushButton:pressed, QToolButton:pressed {
             </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next File&lt;br/&gt;shortcut:&amp;lt;right arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -253,6 +262,9 @@ QPushButton:pressed, QToolButton:pressed {
             </property>
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::NoFocus</enum>
             </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copy File to Clipboard&lt;br/&gt;shortcut: &amp;lt;Ctrl&amp;gt;+&amp;lt;C&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -301,6 +313,9 @@ QPushButton:pressed, QToolButton:pressed {
          </property>
          <property name="cursor">
           <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="focusPolicy">
+          <enum>Qt::NoFocus</enum>
          </property>
          <property name="toolTip">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Undo&lt;br/&gt;shortcut: &amp;lt;Ctrl&amp;gt;+&amp;lt;Z&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>

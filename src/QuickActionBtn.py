@@ -37,6 +37,7 @@ class QuickActionBtn(QtWidgets.QPushButton):
             self.sizePolicy().hasHeightForWidth())
         self.setSizePolicy(sizePolicy)
         self.setCursor(QCursor(Qt.PointingHandCursor))
+        self.setFocusPolicy(Qt.NoFocus)
         self.setText(name)
 
         self.prevTasksList = []
@@ -118,6 +119,6 @@ class QuickActionBtn(QtWidgets.QPushButton):
             return
 
         if(self.UnTask(self.prevTasksList[-1])):
-            self.prevTasksList.pop()
+            return self.prevTasksList.pop()
         else:  # handle errors
             pass
