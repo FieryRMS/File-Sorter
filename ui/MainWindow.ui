@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>File Sorter</string>
   </property>
   <property name="styleSheet">
    <string notr="true">*{
@@ -52,6 +52,12 @@ QPushButton:pressed, QToolButton:pressed {
 	border-radius: 0px;
 	font-size:14px;
 	color: black;
+}
+#CustomActions&gt;QPushButton#movebtn{
+	background: rgb(0, 195, 255);
+}
+#CustomActions&gt;QPushButton#copybtn{
+	background: rgb(26, 255, 0);
 }</string>
   </property>
   <widget class="QWidget" name="CentralWidget">
@@ -378,8 +384,16 @@ QPushButton:pressed, QToolButton:pressed {
     <property name="title">
      <string>Actions</string>
     </property>
-    <addaction name="actionAdd_Action_Queue"/>
-    <addaction name="actionAdd_Subdirectory_Move_Action"/>
+    <widget class="QMenu" name="menuRemove_Actions">
+     <property name="title">
+      <string>Remove Actions</string>
+     </property>
+     <addaction name="actionRemove_all_actions"/>
+    </widget>
+    <addaction name="actionAdd_move_action"/>
+    <addaction name="actionAdd_copy_action"/>
+    <addaction name="actionAdd_subdir_move_action"/>
+    <addaction name="menuRemove_Actions"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -391,12 +405,12 @@ QPushButton:pressed, QToolButton:pressed {
   </action>
   <action name="actionAdd_Action_Queue">
    <property name="text">
-    <string>Add action queue...</string>
+    <string>Add move action...</string>
    </property>
   </action>
   <action name="actionAdd_Subdirectory_Move_Action">
    <property name="text">
-    <string>Add move to subdir actions</string>
+    <string>Add copy action...</string>
    </property>
   </action>
   <action name="actionUndo_last_action">
@@ -422,6 +436,31 @@ QPushButton:pressed, QToolButton:pressed {
   <action name="actionOpen_File">
    <property name="text">
     <string>Open File...</string>
+   </property>
+  </action>
+  <action name="actionAdd_subdir_move_action">
+   <property name="text">
+    <string>Add subdir move actions...</string>
+   </property>
+  </action>
+  <action name="action_added_actions_appear_here">
+   <property name="text">
+    <string>Remove all actions</string>
+   </property>
+  </action>
+  <action name="actionAdd_move_action">
+   <property name="text">
+    <string>Add move action...</string>
+   </property>
+  </action>
+  <action name="actionAdd_copy_action">
+   <property name="text">
+    <string>Add copy action...</string>
+   </property>
+  </action>
+  <action name="actionRemove_all_actions">
+   <property name="text">
+    <string>Remove all actions</string>
    </property>
   </action>
  </widget>

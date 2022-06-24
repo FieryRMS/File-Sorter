@@ -1,129 +1,12 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QFileDialog
-from PyQt5.QtCore import QUrl, QMimeData, QSize, Qt
-from PyQt5.QtGui import QCursor, QIcon, QPixmap
+from PyQt5.QtCore import QUrl, QMimeData, QSize, QSettings
+from PyQt5.QtGui import QIcon, QPixmap
 from src.builds.ui_mainwindow import Ui_MainWindow
 from src.MediaPlayerWidget import MediaPlayerWidget
 from pathlib import Path
-import shutil
 import os
-import send2trash
-import winshell
-
-
-class QuickActionBtn(QtWidgets.QPushButton):
-    def __init__(self, parent=None, name=None, type="delete", destdir=None):
-        if(type not in {"move", "delete", "copy"}):
-            raise ValueError(
-                'In QuickActionBtn.__init__(): type must be "move", "delete" or "copy"')
-
-        if(type != "delete" and not Path(destdir).is_dir()):
-            raise ValueError(
-                'In QuickActionBtn.__init__(): type "move", "copy" must have valid destdir')
-
-        super().__init__(parent)
-        self.DestDir = destdir
-
-        if(type == "move"):
-            self.Task = self.Move
-            self.UnTask = self.UnMove
-        if(type == "delete"):
-            self.Task = self.Delete
-            self.UnTask = self.UnDelete
-        if(type == "copy"):
-            self.Task = self.Copy
-            self.UnTask = self.UnCopy
-
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(
-            self.sizePolicy().hasHeightForWidth())
-        self.setSizePolicy(sizePolicy)
-        self.setCursor(QCursor(Qt.PointingHandCursor))
-        self.setText(name)
-
-        self.prevTasksList = []
-
-    def Copy(self, FilePath):
-        try:
-            shutil.copy2(FilePath, self.DestDir)
-            return True
-        except shutil.SameFileError:
-            print("Error: src and dst specify the same file")
-        except PermissionError:
-            print("Error: The destination location is not writeable")
-        except:
-            print("Error: An unknown error occured")
-        print(f"could not copy {FilePath} to {self.DestDir}")
-        return False
-
-    def Move(self, FilePath):
-        try:
-            shutil.move(FilePath, self.DestDir)
-            return True
-        except:
-            print("Error: An unknown error occured")
-        print(f"could not move {FilePath} to {self.DestDir}")
-        return False
-
-    def Delete(self, FilePath):
-        try:
-            send2trash.send2trash(FilePath)
-            return True
-        except FileNotFoundError:
-            print("Error: File not found")
-        except:
-            print("Error: An unknown error occured")
-        print(f"could not delete {FilePath}")
-        return False
-
-    ##returns true if file is still present in original dir
-    def ExecuteTask(self, FilePath):
-        FilePath = str(Path(FilePath).resolve())
-        if(self.Task(FilePath)):
-            self.prevTasksList.append(FilePath)
-            if(self.Task==self.Copy):
-                return True
-            return False
-        else:  # handle errors
-            pass
-        return True
-
-    def UnCopy(self, FilePath):
-        DestFile = Path(self.DestDir).join(Path(FilePath).name)
-        return self.Delete(str(DestFile))
-
-    def UnMove(self, FilePath):
-        DestFile = Path(self.DestDir).join(Path(FilePath).name)
-        try:
-            shutil.move(DestFile, FilePath)
-            return True
-        except:
-            print("Error: An unknown error occured")
-        print(f"could not move {DestFile} to {FilePath}")
-        return False
-
-    def UnDelete(self, FilePath):
-        try:
-            winshell.undelete(FilePath)
-            return True
-        except ValueError:
-            print("Error: File not found")
-        except:
-            print("Error: An unknown error occured")
-        print(f"Could not restore {FilePath} from trash")
-        return False
-
-    def UnExecuteTask(self):
-        if(len(self.prevTasksList) == 0):
-            return
-
-        if(self.UnTask(self.prevTasksList[-1])):
-            self.prevTasksList.pop()
-        else:  # handle errors
-            pass
+from src.QuickActionBtn import QuickActionBtn
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
@@ -131,6 +14,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.app = app
         super().__init__()
         self.setupUi(self)
+
+        self.settings = QSettings()
+        LastUsedPath = self.settings.value(
+            "init/LastUsedPath", os.path.expandvars(r"C:\Users\%USERNAME%\Desktop"))
 
         self.MediaPlayerWidget = MediaPlayerWidget(self.MediaPlayerContainer)
         self.MediaPlayerContainerLayout.addWidget(self.MediaPlayerWidget)
@@ -140,24 +27,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.FolderOpenDialog.setFileMode(QFileDialog.Directory)
         self.FolderOpenDialog.setOptions(
             QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
-        self.ActionBtnGroup = QtWidgets.QButtonGroup(self.ActionHotbar)
+        self.AddMoveActionDialog = QFileDialog(self)
+        self.AddMoveActionDialog.setFileMode(QFileDialog.Directory)
+        self.AddMoveActionDialog.setOptions(
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+        self.AddCopyActionDialog = QFileDialog(self)
+        self.AddCopyActionDialog.setFileMode(QFileDialog.Directory)
+        self.AddCopyActionDialog.setOptions(
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+        self.AddSubdirMoveActionDialog = QFileDialog(self)
+        self.AddSubdirMoveActionDialog.setFileMode(QFileDialog.Directory)
+        self.AddSubdirMoveActionDialog.setOptions(
+            QFileDialog.ShowDirsOnly | QFileDialog.DontResolveSymlinks)
+        self.SetFileInitDirs(LastUsedPath)
+        self.ActionBtnGroup = QtWidgets.QButtonGroup(self)
         self.DeleteBtn = QuickActionBtn(self.DefaultActions)
         self.DeleteBtn.setMinimumSize(QSize(32, 32))
         self.DeleteBtn.setMaximumSize(QSize(32, 32))
-        self.DeleteBtn.setText("")
         icon = QIcon()
         icon.addPixmap(QPixmap(":/icons/assets/delete.svg"),
-                        QIcon.Normal, QIcon.Off)
+                       QIcon.Normal, QIcon.Off)
         self.DeleteBtn.setIcon(icon)
         self.DeleteBtn.setIconSize(QSize(24, 24))
         self.DeleteBtn.setToolTip(
             "<html><head/><body><p>Delete File<br/>shortcut:&lt;del&gt;</p></body></html>")
         self.DefaultActionsLayout.addWidget(self.DeleteBtn)
         self.ActionBtnGroup.addButton(self.DeleteBtn)
+        self.ActionRemoveMenuGroup = QtWidgets.QActionGroup(self)
 
         self.CurrFileIdx = -1
         self.FileList = []
-        self.PrevTasksList=[]
+        self.PrevTasksList = []
 
         self.MediaPlayerWidget.dropOpen.connect(
             lambda f: self.OpenFile(f, True))
@@ -166,15 +66,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.CopyToClipBtn.clicked.connect(self.CopyToClip)
         self.actionOpen_File.triggered.connect(self.FileOpenDialog.open)
         self.actionOpen_Folder.triggered.connect(self.FolderOpenDialog.open)
+        self.actionAdd_move_action.triggered.connect(
+            self.AddMoveActionDialog.open)
+        self.actionAdd_copy_action.triggered.connect(
+            self.AddCopyActionDialog.open)
+        self.actionRemove_all_actions.triggered.connect(
+            self.DeleteAllActionBtn)
+        self.actionAdd_subdir_move_action.triggered.connect(
+            self.AddSubdirMoveActionDialog.open)
         self.FileOpenDialog.fileSelected.connect(self.OpenFile)
         self.FolderOpenDialog.fileSelected.connect(self.OpenFolder)
+        self.AddMoveActionDialog.fileSelected.connect(self.AddCustomMoveAction)
+        self.AddCopyActionDialog.fileSelected.connect(self.AddCustomCopyAction)
+        self.AddSubdirMoveActionDialog.fileSelected.connect(
+            self.AddCustomSubdirMoveActions)
         self.ActionBtnGroup.buttonClicked.connect(self.ActionBtnClicked)
+        self.ActionRemoveMenuGroup.triggered.connect(self.DeleteActionBtn)
         self.UndoActionBtn.clicked.connect(self.UndoPrevAction)
+
+    def SetFileInitDirs(self, LastUsedPath):
+        self.FileOpenDialog.setDirectory(LastUsedPath)
+        self.FolderOpenDialog.setDirectory(LastUsedPath)
+        self.AddMoveActionDialog.setDirectory(LastUsedPath)
+        self.AddCopyActionDialog.setDirectory(LastUsedPath)
+        self.AddSubdirMoveActionDialog.setDirectory(LastUsedPath)
+        
+        self.settings.setValue("init/LastUsedPath", LastUsedPath)
 
     def initFileList(self, Dir):
         self.FileList = [str(p) for p in Path(
             Dir).resolve().iterdir() if p.is_file()]
-        self.FileList.sort(key=lambda e: os.path.getmtime(e))
+        self.FileList.sort(key=lambda e: os.path.getmtime(e), reverse=True)
 
     def OpenFolder(self, Dir):
         if(not Path(Dir).is_dir()):
@@ -183,6 +105,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.initFileList(Dir)
         self.MediaPlayerWidget.OpenFile(self.FileList[0])
         self.CurrFileIdx = 0
+        self.SetFileInitDirs(Dir)
 
     def OpenFile(self, FilePath, isDropOpen=False):
         path = Path(FilePath).resolve()
@@ -190,10 +113,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Invalid file path")
             return
         self.initFileList(path.parent)
-        path = str(path)
-        self.CurrFileIdx = self.FileList.index(path)
+        self.CurrFileIdx = self.FileList.index(str(path))
         if(not isDropOpen):
-            self.MediaPlayerWidget.OpenFile(path)
+            self.MediaPlayerWidget.OpenFile(str(path))
+        self.SetFileInitDirs(str(path.parent))
 
     def NextFile(self):
         if(len(self.FileList) == 0):
@@ -227,23 +150,67 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         cb = QtWidgets.QApplication.clipboard()
         cb.setMimeData(data)
 
+    def AddCustomBtn(self, DestDir, type):
+        path = Path(DestDir).resolve()
+        if(not path.is_dir()):
+            print("Path is not a directory")
+            return
+        elif(type not in {"move", "copy"}):
+            print('type must be "move" or "copy"')
+        NewBtn = QuickActionBtn(self.CustomActions, path.name, type, str(path))
+        NewBtn.setToolTip(
+            f"<html><head/><body><p>{type} current file to {DestDir}</p></body></html>")
+        self.CustomActionsLayout.addWidget(NewBtn)
+        NewBtn.setObjectName(type+"btn")
+        self.ActionBtnGroup.addButton(NewBtn)
+        NewQAction = QtWidgets.QAction(self)
+        NewQAction.ActionBtn = NewBtn
+        NewQAction.setText(path.name)
+        self.menuRemove_Actions.addAction(NewQAction)
+        self.ActionRemoveMenuGroup.addAction(NewQAction)
+
+    def AddCustomMoveAction(self, DestDir):
+        self.AddCustomBtn(DestDir, "move")
+        self.SetFileInitDirs(DestDir)
+
+    def AddCustomCopyAction(self, DestDir):
+        self.AddCustomBtn(DestDir, "copy")
+        self.SetFileInitDirs(DestDir)
+
+    def AddCustomSubdirMoveActions(self, DestDir):
+        path = Path(DestDir).resolve()
+        for i in path.iterdir():
+            if(i.is_dir()):
+                self.AddCustomMoveAction(str(i))
+        self.SetFileInitDirs(DestDir)
+
+    def DeleteActionBtn(self, btn: QtWidgets.QAction):
+        btn.ActionBtn.deleteLater()
+        btn.deleteLater()
+
+    def DeleteAllActionBtn(self):
+        for i in self.ActionRemoveMenuGroup.actions():
+            self.DeleteActionBtn(i)
+
     def ActionBtnClicked(self, btn: QuickActionBtn):
-        if(self.CurrFileIdx==-1):
+        if(self.CurrFileIdx == -1):
             return
         btn.ExecuteTask(self.FileList[self.CurrFileIdx])
         self.PrevTasksList.append(btn)
 
     def UndoPrevAction(self):
-        if(len(self.PrevTasksList)==0):
+        if(len(self.PrevTasksList) == 0):
             return
         self.PrevTasksList[-1].UnExecuteTask()
         self.PrevTasksList.pop()
 
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
+    app.setOrganizationName("FieryRMS")
+    app.setOrganizationDomain("https://github.com/FieryRMS/File-Sorter")
+    app.setApplicationName("File Sorter")
     mainwindow = MainWindow()
-    mainwindow.OpenFile(
-        r"C:\Users\FieryRMS\Downloads\289279279_1740174506323556_7478604231351854831_n.mp4")
     mainwindow.show()
     sys.exit(app.exec_())
