@@ -9,7 +9,7 @@ from win32com.client.gencache import EnsureDispatch
 
 
 class MediaPlayerWidget(QtWidgets.QWidget):
-    dropOpen = pyqtSignal(str, bool, name="dropOpen")
+    dropOpen = pyqtSignal(str, name="dropOpen")
 
     UnknownFileText = """
 <table align="center" cellpadding="4px" style="font-size:15px;border-collapse: collapse;">
@@ -113,7 +113,7 @@ class MediaPlayerWidget(QtWidgets.QWidget):
     def dropEvent(self, event):
         f = event.mimeData().urls()[0].toLocalFile()
         self.OpenFile(f)
-        self.dropOpen.emit(f, True)
+        self.dropOpen.emit(f)
 
 
 if __name__ == "__main__":

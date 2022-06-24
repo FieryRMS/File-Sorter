@@ -18,7 +18,9 @@
 	background: rgb(29, 29, 29);
 	color: white;
 }
-
+QToolTip{
+ color: 	dimgrey;
+}
 QMenuBar::item:selected, QMenu:selected{
 	background: rgb(59, 59, 59);
 }
@@ -91,18 +93,12 @@ QPushButton:pressed, QToolButton:pressed {
      </widget>
     </item>
     <item>
-     <widget class="QFrame" name="ActionHotbar">
+     <widget class="QWidget" name="ActionHotbar" native="true">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
         <height>35</height>
        </size>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
       </property>
       <layout class="QHBoxLayout" name="ActionHotbarLayout">
        <property name="spacing">
@@ -173,17 +169,8 @@ QPushButton:pressed, QToolButton:pressed {
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Previous File&lt;br/&gt;shortcut:&amp;lt;left arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
             </property>
             <property name="icon">
              <iconset resource="VideoPlayerAssets.qrc">
@@ -194,9 +181,6 @@ QPushButton:pressed, QToolButton:pressed {
               <width>24</width>
               <height>24</height>
              </size>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -223,17 +207,8 @@ QPushButton:pressed, QToolButton:pressed {
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
             <property name="toolTip">
              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Next File&lt;br/&gt;shortcut:&amp;lt;right arrow&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
             </property>
             <property name="icon">
              <iconset resource="VideoPlayerAssets.qrc">
@@ -245,61 +220,8 @@ QPushButton:pressed, QToolButton:pressed {
               <height>24</height>
              </size>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
             <property name="checked">
              <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="DeleteBtn">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>32</width>
-              <height>32</height>
-             </size>
-            </property>
-            <property name="cursor">
-             <cursorShape>PointingHandCursor</cursorShape>
-            </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Delete&lt;br/&gt;shortcut:&amp;lt;Del&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="icon">
-             <iconset resource="VideoPlayerAssets.qrc">
-              <normaloff>:/icons/assets/delete.svg</normaloff>:/icons/assets/delete.svg</iconset>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>24</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
             </property>
            </widget>
           </item>
@@ -326,17 +248,8 @@ QPushButton:pressed, QToolButton:pressed {
             <property name="cursor">
              <cursorShape>PointingHandCursor</cursorShape>
             </property>
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
             <property name="toolTip">
-             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copy File to ClipBoard&lt;br/&gt;shortcut: &amp;lt;Ctrl&amp;gt;+&amp;lt;C&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="text">
-             <string/>
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Copy File to Clipboard&lt;br/&gt;shortcut: &amp;lt;Ctrl&amp;gt;+&amp;lt;C&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
             </property>
             <property name="icon">
              <iconset resource="VideoPlayerAssets.qrc">
@@ -348,9 +261,6 @@ QPushButton:pressed, QToolButton:pressed {
               <height>24</height>
              </size>
             </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
            </widget>
           </item>
          </layout>
@@ -360,6 +270,44 @@ QPushButton:pressed, QToolButton:pressed {
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="UndoActionBtn">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="cursor">
+          <cursorShape>PointingHandCursor</cursorShape>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Undo&lt;br/&gt;shortcut: &amp;lt;Ctrl&amp;gt;+&amp;lt;Z&amp;gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="icon">
+          <iconset resource="VideoPlayerAssets.qrc">
+           <normaloff>:/icons/assets/arrow-u-left-top.svg</normaloff>:/icons/assets/arrow-u-left-top.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
          </property>
         </widget>
        </item>
@@ -432,7 +380,6 @@ QPushButton:pressed, QToolButton:pressed {
     </property>
     <addaction name="actionAdd_Action_Queue"/>
     <addaction name="actionAdd_Subdirectory_Move_Action"/>
-    <addaction name="actionUndo_last_action"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuActions"/>
@@ -449,7 +396,7 @@ QPushButton:pressed, QToolButton:pressed {
   </action>
   <action name="actionAdd_Subdirectory_Move_Action">
    <property name="text">
-    <string>Add move to subdir actions...</string>
+    <string>Add move to subdir actions</string>
    </property>
   </action>
   <action name="actionUndo_last_action">
