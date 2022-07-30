@@ -6,3 +6,5 @@ dlls
 test_files
 __pycache__
 builds
+build.bat
+buildfiles

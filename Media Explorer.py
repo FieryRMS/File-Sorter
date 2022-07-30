@@ -108,6 +108,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.NextFile()
         elif(e.key() == Qt.Key.Key_Left):
             self.PrevFile()
+        elif(e.key() == Qt.Key.Key_Delete):
+            self.ActionBtnClicked(self.DeleteBtn)
         elif(e.matches(QKeySequence.StandardKey.Copy)):
             self.CopyToClip()
         elif(e.matches(QKeySequence.StandardKey.Undo)):
@@ -118,6 +120,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             print("Invalid directory")
             return
         self.initFileList(Dir)
+        if(len(self.FileList)==0):
+            self.CurrFileIdx = -1
+            print("No files in directory")
+            return
         self.MediaPlayerWidget.OpenFile(self.FileList[0])
         self.CurrFileIdx = 0
         self.SetFileInitDirs(Dir)
@@ -214,19 +220,23 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if(not btn.ExecuteTask(self.FileList[self.CurrFileIdx])):
             del self.FileList[self.CurrFileIdx]
             self.CurrFileIdx -= 1
-            self.NextFile()
+        self.NextFile()
         self.PrevTasksList.append(btn)
 
     def UndoPrevAction(self):
         if(len(self.PrevTasksList) == 0):
             return
         FilePath = self.PrevTasksList[-1].UnExecuteTask()
-        def key(e): return -1*os.path.getmtime(e)
-        self.CurrFileIdx = bisect.bisect(self.FileList, key(FilePath),
-                                         key=key)
-        self.FileList.insert(self.CurrFileIdx, FilePath)
-        self.MediaPlayerWidget.OpenFile(self.FileList[self.CurrFileIdx])
-        self.PrevTasksList.pop()
+        try:
+        ## following functon causes error when undoing a delete, probably cuz delete function takes longer than to come here
+            def key(e): return -1*os.path.getmtime(e)
+            self.CurrFileIdx = bisect.bisect(self.FileList, key(FilePath),
+                                            key=key)
+            self.FileList.insert(self.CurrFileIdx, FilePath)
+            self.MediaPlayerWidget.OpenFile(self.FileList[self.CurrFileIdx])
+            self.PrevTasksList.pop()
+        except:
+            print("could not restore delete")
 
 
 if __name__ == "__main__":

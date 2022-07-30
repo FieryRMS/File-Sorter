@@ -83,7 +83,8 @@ class MediaPlayerWidget(QtWidgets.QWidget):
     def OpenFile(self, FilePath: str):
         if(not Path(FilePath).is_file()):
             print("file not found")
-        elif(FilePath.endswith(self.VideoPlayer.VIDEOTYPES)):
+        FilePath = FilePath.lower()
+        if(FilePath.endswith(self.VideoPlayer.VIDEOTYPES)):
             self.VideoPlayer.OpenVideo(FilePath)
             self.StackedLayout.setCurrentWidget(self.VideoPlayer)
         elif(FilePath.endswith(".pdf") or

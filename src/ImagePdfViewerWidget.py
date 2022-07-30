@@ -17,6 +17,7 @@ class ImagePdfViewerWidget(QWebEngineView):
         self.setContextMenuPolicy(Qt.NoContextMenu)
         self.setAcceptDrops(False)
         self.load(QUrl(IMAGEPDFVIEWER))
+        self.DevWindow()
 
     def OpenPdf(self, uri):
         self.page().runJavaScript(f"OpenPdf('{uri}')")
