@@ -102,7 +102,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     p), key=lambda e: -1*os.path.getmtime(e))
 
     def keyPressEvent(self, e: QKeyEvent):
-        print("hi")
         if(e.key() == Qt.Key.Key_Space):
             self.MediaPlayerWidget.VideoPlayer.TogglePause()
         elif(e.key() == Qt.Key.Key_Right):
