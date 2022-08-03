@@ -1,6 +1,6 @@
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebEngineSettings
 from PyQt5.QtCore import Qt, QUrl
 from pathlib import Path
 
@@ -17,7 +17,7 @@ class ImagePdfViewerWidget(QWebEngineView):
         self.setContextMenuPolicy(Qt.NoContextMenu)
         self.setAcceptDrops(False)
         self.load(QUrl(IMAGEPDFVIEWER))
-        self.DevWindow()
+        # self.DevWindow()
 
     def OpenPdf(self, uri):
         self.page().runJavaScript(f"OpenPdf('{uri}')")
@@ -52,5 +52,4 @@ if __name__ == '__main__':
     window.setGeometry(200, 50, 800, 600)
     window.OpenFile(r"test_files\6.webp")
     window.show()
-    # window.DevWindow()
     sys.exit(app.exec_())

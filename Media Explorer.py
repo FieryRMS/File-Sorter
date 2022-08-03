@@ -102,6 +102,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
                     p), key=lambda e: -1*os.path.getmtime(e))
 
     def keyPressEvent(self, e: QKeyEvent):
+        print("hi")
         if(e.key() == Qt.Key.Key_Space):
             self.MediaPlayerWidget.VideoPlayer.TogglePause()
         elif(e.key() == Qt.Key.Key_Right):
@@ -228,7 +229,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             return
         FilePath = self.PrevTasksList[-1].UnExecuteTask()
         try:
-        ## following functon causes error when undoing a delete, probably cuz delete function takes longer than to come here
+        ## following function causes error when undoing a delete, probably cuz delete function takes longer than to come here
             def key(e): return -1*os.path.getmtime(e)
             self.CurrFileIdx = bisect.bisect(self.FileList, key(FilePath),
                                             key=key)

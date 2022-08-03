@@ -3,9 +3,31 @@ from .ImagePdfViewerWidget import ImagePdfViewerWidget
 
 import sys
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt, pyqtSignal
+from PyQt5.QtCore import Qt, pyqtSignal, QObject, QEvent, QCoreApplication
+from PyQt5.QtGui import QKeyEvent
 from pathlib import Path
 from win32com.client.gencache import EnsureDispatch
+
+
+class ForwardKeyEvent(QObject):
+    # https://stackoverflow.com/a/57012924/14908508
+    def __init__(self, sender, receiver, parent=None):
+        super(ForwardKeyEvent, self).__init__(parent)
+        self.m_sender = sender
+        self.m_receiver = receiver
+        self.m_sender.installEventFilter(self)
+
+    def eventFilter(self, obj, event):
+        if self.m_sender is obj and event.type() == QEvent.KeyPress:
+            new_event = QKeyEvent(
+                QEvent.KeyPress,
+                event.key(),
+                event.modifiers(),
+                event.text(),
+            )
+            new_event.artificial = True
+            QCoreApplication.postEvent(self.m_receiver, new_event)
+        return super().eventFilter(obj, event)
 
 
 class MediaPlayerWidget(QtWidgets.QWidget):
@@ -47,6 +69,9 @@ class MediaPlayerWidget(QtWidgets.QWidget):
         self.setAcceptDrops(True)
         self.VideoPlayer = VideoPlayerWidget(self)
         self.ImagePdfViewer = ImagePdfViewerWidget(self)
+        
+        self.FKE = ForwardKeyEvent(self.ImagePdfViewer.focusProxy(), self)
+        self.installEventFilter(self)
 
         self.UnknownFile = QtWidgets.QLabel(self)
         self.UnknownFile.setAlignment(Qt.AlignCenter)
@@ -64,6 +89,12 @@ class MediaPlayerWidget(QtWidgets.QWidget):
 """)
         self.StackedLayout.setCurrentWidget(self.UnknownFile)
 
+    def eventFilter(self, obj: 'QObject', e: 'QEvent') -> bool:
+        target = QtWidgets.QApplication.focusWidget()
+        if(e.type() == QEvent.KeyPress
+           and target.parentWidget() == self.ImagePdfViewer and not hasattr(e, "artificial")):
+            return True
+        return super().eventFilter(obj, e)
     def get_file_metadata(self, path, filename):
         # https://stackoverflow.com/a/63662404
         metadata = ['Name', 'Size', 'Item type',
